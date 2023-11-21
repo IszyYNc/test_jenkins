@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage("Test Automation") {
             steps {
-                bat  "robot -d ./results ./testcases/test.robot"
+                bat  "robot -d ./results ./test/test.robot"
             }
             post {
                 always{
