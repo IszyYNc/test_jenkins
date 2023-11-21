@@ -15,7 +15,7 @@ pipeline {
                     otherFiles: '*.png, *.jpg',
                     onlyCritical: false
                 )
-                 script {
+                script {
                     String passed = tm('${ROBOT_PASSED}')
                     String failed = tm('${ROBOT_FAILED}')
                     office365ConnectorSend(
@@ -23,8 +23,6 @@ pipeline {
                         message: "Natcha : PASSED = ${passed}, FAILED = ${failed}"
                     )
                 }
-            
-                )
             }
         }
     }
