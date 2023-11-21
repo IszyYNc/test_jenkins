@@ -1,9 +1,30 @@
-pipeline{
+pipeline {
     agent any
     stages {
         stage("Test Automation") {
             steps {
-                bat  "robot test.robot"
+                sh  "robot test.robot"
+                robot(
+                    outputPath: './',
+                    outputFileName: 'output.xml',
+                    reportFileName: 'report.html',
+                    logFileName: 'log.html',
+                    disableArchiveOutput: false,
+                    passThreshold: 100.0,
+                    unstableThreshold: 100.0,
+                    otherFiles: '*.png, *.jpg',
+                    onlyCritical: false
+                )
+                script {
+                    String passed = tm('${ROBOT_PASSED}')
+                    String failed = tm('${ROBOT_FAILED}')
+                    office365ConnectorSend(
+                    webhookUrl:"https://doppiotech0.webhook.office.com/webhookb2/fce827c4-99f3-4cbb-b461-54656ed2dbd6@588d80ee-f1d1-48fd-ac33-98dcd6ff0dff/IncomingWebhook/e49eb3fa3f9b4af3b796946f781db2c3/3f393c7f-1b6a-456c-bff9-a9bc521aec68",
+                    message: "natcha : PASSED = ${passed}, FIALED = ${failed}"
+                    )
+                }
+            
+                )
             }
         }
     }
